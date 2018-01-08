@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6.6
+
+  mongodb:
+    image: mongo:3.0-wheezy
+
+  app:
+    image: bitcoin:latest
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile_app
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+      - db
+    entrypoint: /entrypoint.sh
+    labels:
+      description: "bitcoin"

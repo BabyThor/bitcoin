@@ -1,0 +1,12 @@
+FROM python:3.6.4-jessie
+
+RUN pip install pymongo==3.6.0 \
+    requests==2.18.4 \
+    Django==2.0 
+
+ENV APPLICATION_ROOT /app/
+
+RUN mkdir $APPLICATION_ROOT
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+WORKDIR $APPLICATION_ROOT
