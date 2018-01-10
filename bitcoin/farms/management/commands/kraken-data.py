@@ -25,10 +25,11 @@ class Command(BaseCommand):
         data = json.loads(response.content)
 
         for key, value in data['result'].items():
-            rate = {
-                'primary': 'EUR',
-                'secondary': data_dict[key],
-                'rate': value['c'][0],
-                'date': datetime.datetime.utcnow()
-            }
-            collection.insert(rate)
+            if key in data_dict.keys():
+                rate = {
+                    'primary': 'EUR',
+                    'secondary': data_dict[key],
+                    'rate': value['c'][0],
+                    'date': datetime.datetime.utcnow()
+                }
+                collection.insert(rate)
