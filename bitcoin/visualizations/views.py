@@ -27,8 +27,8 @@ class CurrencyAPIView(View):
         exchange_rate = db.exchange_rate
         eu_exchange = db.eu_exchange
 
-        time_range = datetime.datetime.utcnow() - timedelta(hours=1)
-        th_data = th_exchange.find({'$and': [{'date': {'$gte': time_range}}, {'secondary': 'BCH'}]}).sort('date')
+        time_range = datetime.datetime.utcnow() - timedelta(minutes=5)
+        th_data = th_exchange.find({'date': {'$gte': time_range}}).sort('date', -1)
 
         data = {
             'x': [],
@@ -41,6 +41,8 @@ class CurrencyAPIView(View):
             'LTC': [],
         }
         for item in th_data:
+            if item['secondary'] not in data.keys():
+                continue
             item_date = item['date']
             start_date = datetime.datetime(item_date.year, item_date.month, item_date.day, item_date.hour, item_date.minute, 0)
             end_date = start_date + timedelta(minutes=1)
@@ -58,7 +60,7 @@ class CurrencyAPIView(View):
 
             current_x = data['x']
             current_x.append(start_date.strftime('%y-%m-%d:%H %M'))
-            data['x'] = current_x
+            data['x'] = list(set(current_x))
             current_percentage = data[item['secondary']]
             current_percentage.append(percentage_diff)
             data[item['secondary']] = current_percentage
