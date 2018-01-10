@@ -15,7 +15,7 @@ class Command(BaseCommand):
         response = requests.get('https://bx.in.th/api/')
         data = json.loads(response.content)
 
-        for key, value in data.iteritems():
+        for key, value in data.items():
             if value['primary_currency'] == 'THB':
                 rate = {
                     'primary': value['primary_currency'],

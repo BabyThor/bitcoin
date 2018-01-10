@@ -8,15 +8,15 @@ from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-    	data_dict = {
-	    	'XRPEUR': 'XRP',
-			'BCHEUR': 'BCH',
-			'ETHEUR': 'ETH',
-			'DASHEUR': 'DAS',
-			'REPEUR': 'REP',
-			'XBTEUR': 'BTC',
-			'LTCEUR': 'LTC',
-    	}
+        data_dict = {
+            'XRPEUR': 'XRP',
+            'BCHEUR': 'BCH',
+            'ETHEUR': 'ETH',
+            'DASHEUR': 'DAS',
+            'REPEUR': 'REP',
+            'XBTEUR': 'BTC',
+            'LTCEUR': 'LTC',
+        }
         client = MongoClient('mongodb', 27017)
         db = client.bitcoin
         collection = db.eu_exchange
@@ -24,7 +24,7 @@ class Command(BaseCommand):
         response = requests.get('https://api.kraken.com/0/public/Ticker?pair=XRPEUR,BCHEUR,ETHEUR,DASHEUR,REPEUR,XBTEUR,LTCEUR')
         data = json.loads(response.content)
 
-        for key, value in data['result'].iteritems():
+        for key, value in data['result'].items():
             rate = {
                 'primary': 'EUR',
                 'secondary': data_dict[key],
