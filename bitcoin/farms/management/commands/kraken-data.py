@@ -9,13 +9,13 @@ from django.core.management.base import BaseCommand, CommandError
 class Command(BaseCommand):
     def handle(self, *args, **options):
         data_dict = {
-            'XRPEUR': 'XRP',
+            'XXRPZEUR': 'XRP',
             'BCHEUR': 'BCH',
-            'ETHEUR': 'ETH',
+            'XETHZEUR': 'ETH',
             'DASHEUR': 'DAS',
-            'REPEUR': 'REP',
-            'XBTEUR': 'BTC',
-            'LTCEUR': 'LTC',
+            'XREPZEUR': 'REP',
+            'XXBTZEUR': 'BTC',
+            'XLTCZEUR': 'LTC',
         }
         client = MongoClient('mongodb', 27017)
         db = client.bitcoin
