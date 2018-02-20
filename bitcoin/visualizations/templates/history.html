@@ -38,6 +38,24 @@
         }
       });
     });
+    $.getJSON('/rate/api/day/{{ currency }}', function(data) {
+      var chart = c3.generate({
+        bindto: '#day-chart',
+        data: {
+          x: 'x',
+          columns: data,
+          xFormat: '%y-%m-%d:%H %M',
+        },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+              format: '%H:%M',
+            }
+          }
+        }
+      });
+    });
     $.getJSON('/rate/api/week/{{ currency }}', function(data) {
       var chart = c3.generate({
         bindto: '#week-chart',
