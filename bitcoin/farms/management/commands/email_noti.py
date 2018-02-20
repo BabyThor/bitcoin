@@ -7,6 +7,8 @@ from django.core.mail import send_mail
 
 from django.core.management.base import BaseCommand, CommandError
 
+from visualizations.models import Setting
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -29,12 +31,8 @@ class Command(BaseCommand):
         th_data = th_exchange.find({'date': {'$lte': end_time_range, '$gte': start_time_range}})
 
         data = {
-            'x': [],
             'XRP': [],
-            'BCH': [],
             'ETH': [],
-            'DAS': [],
-            'REP': [],
             'BTC': [],
             'LTC': [],
         }
