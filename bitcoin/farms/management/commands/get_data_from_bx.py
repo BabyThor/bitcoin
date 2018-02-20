@@ -8,6 +8,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        current_time = datetime.datetime.utcnow()
         client = MongoClient('mongodb', 27017)
         db = client.bitcoin
         collection = db.th_exchange
@@ -21,6 +22,6 @@ class Command(BaseCommand):
                     'primary': value['primary_currency'],
                     'secondary': value['secondary_currency'],
                     'rate': value['last_price'],
-                    'date': datetime.datetime.utcnow()
+                    'date': current_time
                 }
                 collection.insert(rate)
