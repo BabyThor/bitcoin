@@ -1,14 +1,27 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:9.6.6
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    volumes:
+      - ./config/elasticsearch/analysis/:/usr/share/elasticsearch/config/analysis
+      - ./config/elasticsearch/storage:/usr/share/elasticsearch/data
+    networks:
+      - storage-network
+    ports:
+      - 9200:9200
 
-  mongodb:
-    image: mongo:3.0-wheezy
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.1
+    volumes:
+      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5600:5601
+    networks:
+      - storage-network
 
   app:
-    image: bitcoin:latest
+    image: search_service:latest
     restart: always
     build:
       context: .
@@ -18,8 +31,13 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - mongodb
-      - db
+      - elastic
     entrypoint: /entrypoint.sh
     labels:
-      description: "bitcoin"
+      description: "search_service"
+    networks:
+      - storage-network
+
+networks:
+  storage-network:
+    driver: bridge
